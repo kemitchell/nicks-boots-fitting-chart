@@ -4,12 +4,28 @@
 require './calculate'
 require './display'
 
+def fractions(string)
+  string
+    .sub(' 1/2', '½')
+    .sub(' 1/4', '¼')
+    .sub(' 3/4', '¾')
+    .sub(' 1/8', '⅛')
+    .sub(' 3/8', '⅜')
+    .sub(' 5/8', '⅝')
+    .sub(' 7/8', '⅞')
+end
+
 puts '<table>'
 
 puts '<thead>'
-puts '<th>Width</th>'
-puts '<th>Measure</th>'
-$sizes.each { |size| print "<th>#{size}</th>" }
+puts '<tr>'
+puts '<th rowspan=2>Width</th>'
+puts '<th rowspan=2>Measure</th>'
+puts "<th colspan=#{$sizes.count}>Size</th>"
+puts '</tr>'
+puts '<tr>'
+$sizes.each { |size| print "<th>#{fractions(size)}</th>" }
+puts '</tr>'
 puts '</thead>'
 
 puts '<tbody>'
@@ -19,7 +35,7 @@ $widths.each do |width|
     puts "<th rowspan=3>#{width}</th>" if measure_index.zero?
     puts "<th>#{measure.to_s.capitalize}</th>"
     $sizes.each do |size|
-      print "<td>#{display($data[size][width][measure])}</td>"
+      print "<td>#{fractions(display($data[size][width][measure]))}</td>"
     end
     puts '</tr>'
   end
