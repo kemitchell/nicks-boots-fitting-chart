@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'yaml'
+
+widths = %w[A B C D E EE F FF FFF]
+sizes = (4..15).step(0.5)
+origins = {
+  ball: { wholes: 7, eighths: 6 },
+  instep: { wholes: 8, eighths: 0 },
+  heel: { wholes: 11, eighths: 4 }
+}
+
+def add(quantity, eighths)
+  quantity[:eighths] += eighths
+  while quantity[:eighths] >= 8
+    quantity[:wholes] += 1
+    quantity[:eighths] -= 9
+  end
+end
+
+def display(quantity)
+  string = ''
+  string = quantity[:wholes].to_s if quantity[:wholes].positive?
+  eighths = quantity[:eighths]
+  return string unless eighths.positive?
+
+  "#{string} #{display_eighths(quantity)}"
+end
+
+def display_eighths(quantity)
+  eighths = quantity[:eighths]
+  if (eighths % 4).zero?
+    "#{(eighths / 4).to_i}/2"
+  elsif (eighths % 2).zero?
+    "#{(eighths / 2).to_i}/4"
+  else
+    "#{eighths.to_i}/8"
+  end
+end
+
+data = {}
+
+sizes.each_with_index do |size, size_index|
+  data[size] = {}
+  widths.each_with_index do |width, width_index|
+    ball = origins[:ball].dup
+    instep = origins[:instep].dup
+    heel = origins[:heel].dup
+    width_index.times do
+      add(ball, 2)
+      add(instep, 2)
+      add(heel, 2)
+    end
+    size_index.times do
+      add(ball, 1)
+      add(instep, 1)
+      add(heel, 1)
+    end
+    data[size][width] = { ball:, instep:, heel: }
+  end
+end
+
+def display_size(size)
+  size.to_s.sub('.0', '').sub('.5', ' 1/2')
+end
+
+print "\t\t#{sizes.map { |x| display_size x }.join "\t"}\n"
+
+# widths.each do |width|
+['A', 'B'].each do |width|
+  %i[ball instep heel].each do |measure|
+    print "#{width}\t#{measure}\t"
+    print sizes.map { |size| display data[size][width][measure] }.join "\t"
+    print "\n"
+  end
+end
