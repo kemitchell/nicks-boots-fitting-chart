@@ -19,4 +19,3 @@ def display_eighths(quantity)
     "#{eighths.to_i}/8"
   end
 end
-
