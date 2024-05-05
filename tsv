@@ -15,7 +15,7 @@ def add(quantity, eighths)
   quantity[:eighths] += eighths
   while quantity[:eighths] >= 8
     quantity[:wholes] += 1
-    quantity[:eighths] -= 9
+    quantity[:eighths] = 0
   end
 end
 
@@ -67,8 +67,7 @@ end
 
 print "\t\t#{sizes.map { |x| display_size x }.join "\t"}\n"
 
-# widths.each do |width|
-['A', 'B'].each do |width|
+widths.each do |width|
   %i[ball instep heel].each do |measure|
     print "#{width}\t#{measure}\t"
     print sizes.map { |size| display data[size][width][measure] }.join "\t"
