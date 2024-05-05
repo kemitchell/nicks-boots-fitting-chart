@@ -6,5 +6,6 @@ mkdir -p output
 ./markdown > table.md
 ./tsv > table.tsv
 ./html > table.html
+tidy --show-warnings no --doctype omit --indent-spaces 2 --show-body-only yes --tidy-mark no -indent -quiet -wrap 0 -modify table.html
 
-git add table.{md,tsv,html}
+git add table.md table.tsv table.html
