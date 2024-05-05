@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require './calculate'
+require './display'
+
+puts '<table>'
+
+puts '<thead>'
+puts '<th>Width</th>'
+puts '<th>Measure</th>'
+$sizes.each { |size| print "<th>#{size}</th>" }
+puts '</thead>'
+
+puts '<tbody>'
+$widths.each do |width|
+  %i[ball instep heel].each_with_index do |measure, measure_index|
+    puts '<tr>'
+    puts "<th rowspan=3>#{width}</th>" if measure_index.zero?
+    puts "<th>#{measure.to_s.capitalize}</th>"
+    $sizes.each do |size|
+      print "<td>#{display($data[size][width][measure])}</td>"
+    end
+    puts '</tr>'
+  end
+end
+puts '</tbody>'
+
+puts '</table>'
