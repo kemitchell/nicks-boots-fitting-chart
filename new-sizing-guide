@@ -17,13 +17,13 @@ end
 
 def body_fractions(string)
   string
-    .sub(' 1/2', '<br><span style="font-size: larger;">½</span>')
-    .sub(' 1/4', '<br><span style="font-size: larger;">¼</span>')
-    .sub(' 3/4', '<br><span style="font-size: larger;">¾</span>')
-    .sub(' 1/8', '<br><span style="font-size: larger;">⅛</span>')
-    .sub(' 3/8', '<br><span style="font-size: larger;">⅜</span>')
-    .sub(' 5/8', '<br><span style="font-size: larger;">⅝</span>')
-    .sub(' 7/8', '<br><span style="font-size: larger;">⅞</span>')
+    .sub(' 1/2', '<br>1/2')
+    .sub(' 1/4', '<br>1/4')
+    .sub(' 3/4', '<br>3/4')
+    .sub(' 1/8', '<br>1/8')
+    .sub(' 3/8', '<br>3/8')
+    .sub(' 5/8', '<br>5/8')
+    .sub(' 7/8', '<br>7/8')
 end
 
 sizes_to_print = $sizes.filter { |x| x.to_f >= 5 && x.to_f <= 14 }
@@ -53,7 +53,7 @@ widths_to_print.each do |group|
   puts '<tr>'
   puts "<th>#{letter}<br>#{description}</th>"
   sizes_to_print.each do |size|
-    print "<td>#{body_fractions(display($data[size][letter][:ball]))}</td>"
+    print "<td>#{body_fractions(display($data[size][letter][:ball]))}″</td>"
   end
   puts '</tr>'
 end
