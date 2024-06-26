@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require './calculate'
+require './display'
+
+def fractions(string)
+  string
+    .sub(' 1/2', '½')
+    .sub(' 1/4', '¼')
+    .sub(' 3/4', '¾')
+    .sub(' 1/8', '⅛')
+    .sub(' 3/8', '⅜')
+    .sub(' 5/8', '⅝')
+    .sub(' 7/8', '⅞')
+end
+
+def body_fractions(string)
+  string
+    .sub(' 1/2', '<br><span style="font-size: larger;">½</span>')
+    .sub(' 1/4', '<br><span style="font-size: larger;">¼</span>')
+    .sub(' 3/4', '<br><span style="font-size: larger;">¾</span>')
+    .sub(' 1/8', '<br><span style="font-size: larger;">⅛</span>')
+    .sub(' 3/8', '<br><span style="font-size: larger;">⅜</span>')
+    .sub(' 5/8', '<br><span style="font-size: larger;">⅝</span>')
+    .sub(' 7/8', '<br><span style="font-size: larger;">⅞</span>')
+end
+
+sizes_to_print = $sizes.filter { |x| x.to_f >= 5 && x.to_f <= 14 }
+widths_to_print = [
+  ['B', 'Slim'],
+  ['C', 'Narrow'],
+  ['D', 'Medium'],
+  ['E', 'Wide'],
+  ['EE', 'Double Wide'],
+  ['F', 'Triple Wide'],
+  ['FF', 'Quandruple Wide']
+]
+
+puts '<style>td, th { text-align: left; padding: 0.25rem; vertical-align: top; }</style>'
+puts '<table>'
+
+puts '<thead>'
+puts '<tr>'
+puts '<th>Width</th>'
+sizes_to_print.each { |size| puts "<th>#{size.sub(' 1/2', '.5')}</th>" }
+puts '</tr>'
+puts '</thead>'
+
+puts '<tbody>'
+widths_to_print.each do |group|
+  group => [letter, description]
+  puts '<tr>'
+  puts "<th>#{letter}<br>#{description}</th>"
+  sizes_to_print.each do |size|
+    print "<td>#{body_fractions(display($data[size][letter][:ball]))}</td>"
+  end
+  puts '</tr>'
+end
+puts '</tbody>'
+
+puts '</table>'
